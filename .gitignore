@@ -9,6 +9,9 @@ dist/
 .env.local
 .env.*.local
 
+# Firebase
+.firebase/
+
 # Editor / OS
 .DS_Store
 *.log
