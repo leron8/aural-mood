@@ -1,16 +1,59 @@
-# React + Vite
+# AuralMood MVP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AuralMood is a wellness soundscape app built with React, Chakra UI, Tone.js, and Firebase.
 
-Currently, two official plugins are available:
+## What’s included
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Mood-based ambient sound layers
+- Smooth fade-in / fade-out audio handling
+- Anonymous Firebase auth + Firestore analytics
+- Simple mood selector UI with emoji buttons
+- PWA-ready service worker and manifest
+- Component-based React architecture with clean audio lifecycle
 
-## React Compiler
+## Local setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Install dependencies
 
-## Expanding the ESLint configuration
+```bash
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Create a `.env` file in the project root with your Firebase values:
+
+```bash
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+```
+
+3. Run development server
+
+```bash
+npm run dev
+```
+
+4. Build for production
+
+```bash
+npm run build
+```
+
+## Notes
+
+- Audio is generated with Tone.js and managed through a centralized `SoundEngine`.
+- Mood configuration is driven by `src/audio/moods.json`.
+- The service worker is registered in `src/main.jsx` and caches UI assets for offline loading.
+- Firebase logs are best-effort and will not block the app when configuration is missing.
+
+## Folder structure
+
+- `src/components/` — UI screens and mood controls
+- `src/audio/` — mood data and the sound engine
+- `src/hooks/` — global audio hook
+- `public/manifest.json` — PWA metadata
+- `public/service-worker.js` — static caching support

@@ -1,7 +1,9 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
-// Firebase config from environment (see .env.example)
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -12,15 +14,22 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase (wrap in try/catch so config errors don't crash the app)
-let app;
-let analytics;
+let app = null;
+let analytics = null;
+let auth = null;
+let firestore = null;
+let storage = null;
+
 try {
   app = initializeApp(firebaseConfig);
-  analytics = getAnalytics(app);
+  if (typeof window !== 'undefined') {
+    analytics = getAnalytics(app);
+  }
+  auth = getAuth(app);
+  firestore = getFirestore(app);
+  storage = getStorage(app);
 } catch (err) {
-  console.warn("Firebase init failed:", err);
-  app = null;
-  analytics = null;
+  console.warn('Firebase init failed:', err);
 }
-export { app, analytics };
+
+export { app, analytics, auth, firestore, storage };

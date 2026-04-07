@@ -1,0 +1,172 @@
+{
+  "calm": {
+    "label": "Calm",
+    "emoji": "🌊",
+    "description": "Ocean ambience with a soft healing tone.",
+    "color": "#4FC3F7",
+    "bgImage": "linear-gradient(180deg, #0f2940 0%, #1f5b73 100%)",
+    "particleColor": "#E3F2FD",
+    "ambient": {
+      "source": "noise",
+      "noiseType": "pink",
+      "filterType": "lowpass",
+      "filterFrequency": 900,
+      "volume": -18,
+      "fadeIn": 4,
+      "fadeOut": 3,
+      "lfo": {
+        "target": "filterFrequency",
+        "min": 700,
+        "max": 1400,
+        "rate": 0.07
+      }
+    },
+    "tone": {
+      "type": "sine",
+      "frequency": 432,
+      "volume": -28,
+      "lfo": {
+        "target": "frequency",
+        "min": 420,
+        "max": 444,
+        "rate": 0.05
+      }
+    }
+  },
+  "anxious": {
+    "label": "Anxious",
+    "emoji": "🌬️",
+    "description": "Wind texture to help you breathe through stress.",
+    "color": "#FF8A65",
+    "bgImage": "linear-gradient(180deg, #1c2a37 0%, #4b5765 100%)",
+    "particleColor": "#FFCCBC",
+    "ambient": {
+      "source": "noise",
+      "noiseType": "white",
+      "filterType": "highpass",
+      "filterFrequency": 500,
+      "volume": -16,
+      "fadeIn": 3.5,
+      "fadeOut": 3,
+      "lfo": {
+        "target": "filterFrequency",
+        "min": 500,
+        "max": 1500,
+        "rate": 0.16
+      }
+    },
+    "tone": {
+      "type": "triangle",
+      "frequency": 528,
+      "volume": -32,
+      "lfo": {
+        "target": "frequency",
+        "min": 520,
+        "max": 540,
+        "rate": 0.08
+      }
+    }
+  },
+  "focused": {
+    "label": "Focused",
+    "emoji": "💡",
+    "description": "Steady noise and a pure tone to sharpen attention.",
+    "color": "#FFD54F",
+    "bgImage": "linear-gradient(180deg, #0f1720 0%, #2a3a52 100%)",
+    "particleColor": "#FFF9C4",
+    "ambient": {
+      "source": "noise",
+      "noiseType": "brown",
+      "filterType": "bandpass",
+      "filterFrequency": 1200,
+      "volume": -14,
+      "fadeIn": 4,
+      "fadeOut": 3,
+      "lfo": {
+        "target": "filterFrequency",
+        "min": 1100,
+        "max": 1400,
+        "rate": 0.08
+      }
+    },
+    "tone": {
+      "type": "sine",
+      "frequency": 963,
+      "volume": -26,
+      "lfo": {
+        "target": "frequency",
+        "min": 952,
+        "max": 972,
+        "rate": 0.06
+      }
+    }
+  },
+  "sleepy": {
+    "label": "Sleepy",
+    "emoji": "🌙",
+    "description": "Slow pulse and warm waves to ease into rest.",
+    "color": "#9575CD",
+    "bgImage": "linear-gradient(180deg, #06121f 0%, #1b3c62 100%)",
+    "particleColor": "#E1BEE7",
+    "ambient": {
+      "source": "noise",
+      "noiseType": "pink",
+      "filterType": "lowpass",
+      "filterFrequency": 600,
+      "volume": -20,
+      "fadeIn": 5,
+      "fadeOut": 4,
+      "lfo": {
+        "target": "filterFrequency",
+        "min": 500,
+        "max": 750,
+        "rate": 0.05
+      }
+    },
+    "tone": {
+      "type": "sine",
+      "frequency": 128,
+      "volume": -34,
+      "lfo": {
+        "target": "volume",
+        "min": -40,
+        "max": -28,
+        "rate": 0.12
+      }
+    }
+  },
+  "energized": {
+    "label": "Energized",
+    "emoji": "🌿",
+    "description": "Forest shimmer with a bright therapeutic tone.",
+    "color": "#81C784",
+    "bgImage": "linear-gradient(180deg, #1b321f 0%, #3b6b44 100%)",
+    "particleColor": "#C8E6C9",
+    "ambient": {
+      "source": "noise",
+      "noiseType": "brown",
+      "filterType": "bandpass",
+      "filterFrequency": 850,
+      "volume": -15,
+      "fadeIn": 3.5,
+      "fadeOut": 3,
+      "lfo": {
+        "target": "filterFrequency",
+        "min": 700,
+        "max": 1000,
+        "rate": 0.12
+      }
+    },
+    "tone": {
+      "type": "sine",
+      "frequency": 852,
+      "volume": -26,
+      "lfo": {
+        "target": "frequency",
+        "min": 842,
+        "max": 862,
+        "rate": 0.09
+      }
+    }
+  }
+}
