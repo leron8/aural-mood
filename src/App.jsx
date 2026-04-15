@@ -89,12 +89,18 @@ function App() {
     logMoodUsage(selectedMood);
   };
 
+  const backgroundImage = `${mood.bgImage}, url('/ocean.jpg')`;
+
   return (
     <Box
       minH="100vh"
       position="relative"
       overflow="hidden"
-      bg={mood.bgImage}
+      bgImage={backgroundImage}
+      bgSize="cover"
+      bgPosition="center"
+      bgRepeat="no-repeat"
+      backgroundBlendMode="overlay"
       transition="background 0.8s ease"
       color="white"
     >
