@@ -104,14 +104,12 @@ function App() {
       transition="background 0.8s ease"
       color="white"
     >
-      <ParticlesBackground particleColor={mood.particleColor} />
+      {/*<ParticlesBackground particleColor={mood.particleColor} />*/}
       <Container maxW="6xl" py={{ base: 10, md: 14 }} position="relative" zIndex={2}>
         <VStack spacing={8} align="stretch">
           <VStack spacing={4} align="center" textAlign="center" color="white">
             <Heading size="2xl">AuralMood</Heading>
-            <Text fontSize={["md", "lg"]} maxW="3xl">
-              A mood-scored wellness soundscape. Choose how you feel, keep the ambience running, and switch moods smoothly with no audio glitches.
-            </Text>
+            <MoodSelector moods={moods} selectedMood={selectedMood} onSelect={handleMoodSelect} />
             <Text fontSize="sm" color="whiteAlpha.700">
               {isLoading ? 'Initializing audio engine...' :
                engineReady ? (signedIn ? 'Anonymous Firebase session active' : 'Signing in anonymously for analytics and session tracking.') :
@@ -119,7 +117,6 @@ function App() {
             </Text>
           </VStack>
           <SoundScene mood={mood} isPlaying={isPlaying} onToggle={handleToggle} engineReady={engineReady && !isLoading} />
-          <MoodSelector moods={moods} selectedMood={selectedMood} onSelect={handleMoodSelect} />
         </VStack>
       </Container>
     </Box>

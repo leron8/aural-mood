@@ -6,10 +6,11 @@ export default function useAudioEngine(moodData) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentMood, setCurrentMood] = useState(null);
   const [engineReady, setEngineReady] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const initEngine = async () => {
+  const playMood = async (moodKey) => {
+    if (!engineRef.current) {
+      setIsLoading(true);
       try {
         engineRef.current = new SoundEngine(moodData);
         await engineRef.current.init(); // Initialize and buffer audio
@@ -17,19 +18,12 @@ export default function useAudioEngine(moodData) {
       } catch (error) {
         console.warn('Audio engine initialization failed:', error);
         setEngineReady(false);
-      } finally {
         setIsLoading(false);
+        return;
       }
-    };
+      setIsLoading(false);
+    }
 
-    initEngine();
-
-    return () => {
-      engineRef.current?.dispose();
-    };
-  }, [moodData]);
-
-  const playMood = async (moodKey) => {
     if (!engineRef.current || !engineReady) return;
 
     try {

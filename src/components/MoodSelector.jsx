@@ -24,7 +24,7 @@ export default function MoodSelector({ moods, selectedMood, onSelect }) {
       <Text fontSize={["lg", "xl"]} fontWeight="600" color="whiteAlpha.800" textAlign="center">
         Pick your mood and let the soundscape settle in.
       </Text>
-      <SimpleGrid columns={[2, 3, 5]} spacing={3}>
+      <SimpleGrid columns={[3]} spacing={3}>
         {Object.entries(moods).map(([key, mood]) => (
           <Button
             key={key}
