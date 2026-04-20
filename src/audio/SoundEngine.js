@@ -34,6 +34,8 @@ export default class SoundEngine {
     this.activeLFOs = [];
     this.isPlaying = false;
     this.isInitialized = false;
+    this.masterVolume = null;
+    this.masterVolumeValue = 0; // in dB
   }
 
   async init() {
@@ -42,6 +44,11 @@ export default class SoundEngine {
     // Initialize Tone.js context and create a test sound to buffer
     if (Tone.context.state !== 'running') {
       await Tone.start();
+    }
+
+    // Create master volume node if not already created
+    if (!this.masterVolume) {
+      this.masterVolume = new Tone.Volume(this.masterVolumeValue).toDestination();
     }
 
     // Create and immediately dispose a test sound to warm up the audio engine
@@ -79,7 +86,11 @@ export default class SoundEngine {
 
     source.connect(filter);
     filter.connect(volume);
-    volume.toDestination();
+    if (this.masterVolume) {
+      volume.connect(this.masterVolume);
+    } else {
+      volume.toDestination();
+    }
 
     const activeLFOs = [];
     if (config.ambient.lfo) {
@@ -111,7 +122,11 @@ export default class SoundEngine {
     const volume = new Tone.Volume(-80);
 
     oscillator.connect(volume);
-    volume.toDestination();
+    if (this.masterVolume) {
+      volume.connect(this.masterVolume);
+    } else {
+      volume.toDestination();
+    }
 
     const activeLFOs = [];
     if (config.tone.lfo) {
@@ -202,8 +217,23 @@ export default class SoundEngine {
     this.activeLFOs = [];
   }
 
+  setMasterVolume(volumeDb) {
+    this.masterVolumeValue = volumeDb;
+    if (this.masterVolume) {
+      fadeParam(this.masterVolume.volume, volumeDb, 0.1);
+    }
+  }
+
+  getMasterVolume() {
+    return this.masterVolumeValue;
+  }
+
   async dispose() {
     await this.stop();
     this.disposeCurrent();
+    if (this.masterVolume) {
+      this.masterVolume.dispose();
+      this.masterVolume = null;
+    }
   }
 }

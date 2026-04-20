@@ -13,7 +13,7 @@ function App() {
   const [selectedMood, setSelectedMood] = useState('calm');
   const [signedIn, setSignedIn] = useState(false);
   const [sessionStart] = useState(() => Date.now());
-  const { engineReady, isLoading, isPlaying, playMood, stop } = useAudioEngine(moods);
+  const { engineReady, isLoading, isPlaying, playMood, stop, volume, setVolume } = useAudioEngine(moods);
   const mood = useMemo(() => moods[selectedMood] || moods.calm, [selectedMood]);
 
   useEffect(() => {
@@ -116,7 +116,7 @@ function App() {
                'Audio initialization failed - please refresh the page.'}
             </Text>
           </VStack>
-          <SoundScene mood={mood} isPlaying={isPlaying} onToggle={handleToggle} engineReady={engineReady && !isLoading} />
+          <SoundScene mood={mood} isPlaying={isPlaying} onToggle={handleToggle} engineReady={engineReady && !isLoading} volume={volume} onVolumeChange={setVolume} />
         </VStack>
       </Container>
     </Box>

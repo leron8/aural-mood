@@ -1,18 +1,34 @@
 import { useEffect, useRef, useState } from 'react';
 import SoundEngine from '../audio/SoundEngine.js';
 
+const STORAGE_KEY = 'auralmood:volume';
+const DEFAULT_VOLUME = 0; // 0 dB (full volume)
+
 export default function useAudioEngine(moodData) {
   const engineRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentMood, setCurrentMood] = useState(null);
   const [engineReady, setEngineReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [volume, setVolumeState] = useState(() => {
+    const savedVolume = localStorage.getItem(STORAGE_KEY);
+    return savedVolume !== null ? parseFloat(savedVolume) : DEFAULT_VOLUME;
+  });
+
+  const setVolume = (newVolume) => {
+    setVolumeState(newVolume);
+    localStorage.setItem(STORAGE_KEY, newVolume.toString());
+    if (engineRef.current) {
+      engineRef.current.setMasterVolume(newVolume);
+    }
+  };
 
   const playMood = async (moodKey) => {
     if (!engineRef.current) {
       setIsLoading(true);
       try {
         engineRef.current = new SoundEngine(moodData);
+        engineRef.current.setMasterVolume(volume);
         await engineRef.current.init(); // Initialize and buffer audio
         setEngineReady(true);
       } catch (error) {
@@ -51,6 +67,8 @@ export default function useAudioEngine(moodData) {
     isLoading,
     currentMood,
     isPlaying,
+    volume,
+    setVolume,
     playMood,
     stop,
   };

@@ -1,4 +1,5 @@
 import { Box, Button, Container, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import VolumeControl from './VolumeControl.jsx';
 
 // Helper function to adjust color brightness
 function adjustBrightness(color, amount) {
@@ -18,7 +19,7 @@ function adjustBrightness(color, amount) {
   return (usePound ? '#' : '') + (r << 16 | g << 8 | b).toString(16);
 }
 
-export default function SoundScene({ mood, isPlaying, onToggle, engineReady }) {
+export default function SoundScene({ mood, isPlaying, onToggle, engineReady, volume, onVolumeChange }) {
   return (
     <Box
       position="relative"
@@ -57,6 +58,9 @@ export default function SoundScene({ mood, isPlaying, onToggle, engineReady }) {
               >
                 {isPlaying ? 'Stop' : 'Play'} ambience
               </Button>
+              <Box width={{ base: 'full', md: '300px' }} px={4}>
+                <VolumeControl volume={volume} onVolumeChange={onVolumeChange} />
+              </Box>
             </Flex>
           </VStack>
         </Container>
