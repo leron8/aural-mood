@@ -13,6 +13,7 @@ function App() {
   const [selectedMood, setSelectedMood] = useState('calm');
   const [signedIn, setSignedIn] = useState(false);
   const [sessionStart] = useState(() => Date.now());
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const { engineReady, isLoading, isPlaying, playMood, stop, volume, setVolume } = useAudioEngine(moods);
   const mood = useMemo(() => moods[selectedMood] || moods.calm, [selectedMood]);
 
@@ -22,6 +23,13 @@ function App() {
       setSelectedMood(lastMood);
     }
   }, []);
+
+  // Auto-play mood on mount
+  useEffect(() => {
+    if (engineReady && selectedMood && !isPlaying) {
+      playMood(selectedMood);
+    }
+  }, [engineReady]);
 
   useEffect(() => {
     if (!auth) {
@@ -80,13 +88,17 @@ function App() {
   };
 
   const handleToggle = async () => {
-    if (isPlaying) {
-      await stop();
-      return;
+    setIsTransitioning(true);
+    try {
+      if (isPlaying) {
+        await stop();
+      } else {
+        await playMood(selectedMood);
+        logMoodUsage(selectedMood);
+      }
+    } finally {
+      setIsTransitioning(false);
     }
-
-    await playMood(selectedMood);
-    logMoodUsage(selectedMood);
   };
 
   const backgroundImage = `${mood.bgImage}, url('/ocean.jpg')`;
@@ -110,13 +122,8 @@ function App() {
           <VStack spacing={4} align="center" textAlign="center" color="white">
             <Heading size="2xl">AuralMood</Heading>
             <MoodSelector moods={moods} selectedMood={selectedMood} onSelect={handleMoodSelect} />
-            <Text fontSize="sm" color="whiteAlpha.700">
-              {isLoading ? 'Initializing audio engine...' :
-               engineReady ? (signedIn ? 'Anonymous Firebase session active' : 'Signing in anonymously for analytics and session tracking.') :
-               'Audio initialization failed - please refresh the page.'}
-            </Text>
           </VStack>
-          <SoundScene mood={mood} isPlaying={isPlaying} onToggle={handleToggle} engineReady={engineReady && !isLoading} volume={volume} onVolumeChange={setVolume} />
+          <SoundScene mood={mood} isPlaying={isPlaying} onToggle={handleToggle} engineReady={!isLoading} volume={volume} onVolumeChange={setVolume} isTransitioning={isTransitioning} />
         </VStack>
       </Container>
     </Box>

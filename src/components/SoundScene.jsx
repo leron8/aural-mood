@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, IconButton, Container, Flex, Heading, Text, VStack, Spinner } from '@chakra-ui/react';
 import VolumeControl from './VolumeControl.jsx';
 
 // Helper function to adjust color brightness
@@ -19,7 +19,7 @@ function adjustBrightness(color, amount) {
   return (usePound ? '#' : '') + (r << 16 | g << 8 | b).toString(16);
 }
 
-export default function SoundScene({ mood, isPlaying, onToggle, engineReady, volume, onVolumeChange }) {
+export default function SoundScene({ mood, isPlaying, onToggle, engineReady, volume, onVolumeChange, isTransitioning }) {
   return (
     <Box
       position="relative"
@@ -42,22 +42,21 @@ export default function SoundScene({ mood, isPlaying, onToggle, engineReady, vol
             <Text fontSize={["md", "lg"]} color="whiteAlpha.800" maxW="720px">
               {mood.description}
             </Text>
-            <Text color="whiteAlpha.600" fontSize="sm">
-              {engineReady ? 'Tap play to enter the soundscape.' : 'Audio will start after you interact with the page.'}
-            </Text>
             <Flex direction="column" align="center" gap={3} width="100%">
-              <Button
-                size="lg"
-                colorScheme={isPlaying ? 'orange' : 'teal'}
-                onClick={onToggle}
-                width={{ base: 'full', md: 'auto' }}
-                bg={isPlaying ? 'orange.500' : mood.color}
-                _hover={{ bg: isPlaying ? 'orange.600' : adjustBrightness(mood.color, -20) }}
-                _active={{ bg: isPlaying ? 'orange.700' : adjustBrightness(mood.color, -30) }}
-                disabled={!engineReady}
-              >
-                {isPlaying ? 'Stop' : 'Play'} ambience
-              </Button>
+                  <IconButton 
+                    aria-label="{isPlaying ? 'Stop' : 'Play'}" 
+                    rounded="full" 
+                    variant="ghost"
+                    size="lg"
+                    colorScheme={isPlaying ? 'orange' : 'teal'}
+                    onClick={onToggle}
+                    width={{ base: 'full', md: 'auto' }}
+                    _hover={{ bg: 'none' }}
+                    _active={{ bg: 'none' }}
+                    disabled={!engineReady || isTransitioning}
+                  >
+                      {isTransitioning ? <Spinner size="lg" color="white" /> : <Text fontSize="6xl">{isPlaying ? '⏹️' : '▶️'}</Text>}
+                  </IconButton>
               <Box width={{ base: 'full', md: '300px' }} px={4}>
                 <VolumeControl volume={volume} onVolumeChange={onVolumeChange} />
               </Box>
